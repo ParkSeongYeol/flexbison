@@ -1,5 +1,6 @@
 %{
-    #include <stdio.h>
+	#include <stdio.h>
+	#include "defines.h"
 	int yylex(void);
     void yyerror(char *);
 extern FILE *yyin;
@@ -11,8 +12,12 @@ extern FILE *yyout;
 %%
 
 program:
-        program expr '\n'         {printf("sucdess. result is in output.txt\n");
-		                           fprintf(yyout, "result=%d\n", $2); }
+        program expr '\n'		{
+									TestFunc(500, 600);
+									printf("sucdess. result is in output.txt\n");
+									fprintf(yyout, "result=%d\n", $2);
+								}
+									
         | 
         ;
 
