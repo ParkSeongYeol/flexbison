@@ -5,9 +5,11 @@
 #  include <math.h>
 #  include "psy_funcs.h"
 
+struct symbol symtab[NHASH];
+
 /* symbol table */
 /* hash a symbol */
-static unsigned symhash(char *sym)
+static unsigned HashFunc(char *sym)
 {
   unsigned int hash = 0;
   unsigned c;
@@ -19,11 +21,11 @@ static unsigned symhash(char *sym)
 
 struct symbol *lookup(char* sym)
 {
-  struct symbol *sp = &symtab[symhash(sym)%NHASH];
+  struct symbol *sp = &symtab[HashFunc(sym)%NHASH];
   int scount = NHASH;		/* how many have we looked at */
 
   while(--scount >= 0) {
-    if(sp->name && !strcmp(sp->name, sym)) { return sp; }
+    if(sp->name && !strcmp(sp->name, sym)) { return sp; } // if same SYMBOL is found, then return it
 
     if(!sp->name) {		/* new entry */
       sp->name = strdup(sym);

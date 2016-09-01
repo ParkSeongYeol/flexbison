@@ -9,7 +9,6 @@ struct symbol {		/* a variable name */
 
 /* simple symtab of fixed size */
 #define NHASH 9997
-struct symbol symtab[NHASH];
 
 struct symbol *lookup(char*);
 
