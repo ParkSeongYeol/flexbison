@@ -7,8 +7,7 @@
 
 /* symbol table */
 /* hash a symbol */
-static unsigned
-symhash(char *sym)
+static unsigned symhash(char *sym)
 {
   unsigned int hash = 0;
   unsigned c;
@@ -18,8 +17,7 @@ symhash(char *sym)
   return hash;
 }
 
-struct symbol *
-lookup(char* sym)
+struct symbol *lookup(char* sym)
 {
   struct symbol *sp = &symtab[symhash(sym)%NHASH];
   int scount = NHASH;		/* how many have we looked at */
@@ -42,10 +40,7 @@ lookup(char* sym)
 
 }
 
-
-
-struct ast *
-newast(int nodetype, struct ast *l, struct ast *r)
+struct ast *newast(int nodetype, struct ast *l, struct ast *r)
 {
   struct ast *a = malloc(sizeof(struct ast));
   
@@ -59,8 +54,7 @@ newast(int nodetype, struct ast *l, struct ast *r)
   return a;
 }
 
-struct ast *
-newnum(double d)
+struct ast *newnum(double d)
 {
   struct numval *a = malloc(sizeof(struct numval));
   
@@ -73,8 +67,7 @@ newnum(double d)
   return (struct ast *)a;
 }
 
-struct ast *
-newcmp(int cmptype, struct ast *l, struct ast *r)
+struct ast *newcmp(int cmptype, struct ast *l, struct ast *r)
 {
   struct ast *a = malloc(sizeof(struct ast));
   
@@ -88,8 +81,7 @@ newcmp(int cmptype, struct ast *l, struct ast *r)
   return a;
 }
 
-struct ast *
-newfunc(int functype, struct ast *l)
+struct ast *newfunc(int functype, struct ast *l)
 {
   struct fncall *a = malloc(sizeof(struct fncall));
   
@@ -103,8 +95,7 @@ newfunc(int functype, struct ast *l)
   return (struct ast *)a;
 }
 
-struct ast *
-newcall(struct symbol *s, struct ast *l)
+struct ast *newcall(struct symbol *s, struct ast *l)
 {
   struct ufncall *a = malloc(sizeof(struct ufncall));
   
@@ -118,8 +109,7 @@ newcall(struct symbol *s, struct ast *l)
   return (struct ast *)a;
 }
 
-struct ast *
-newref(struct symbol *s)
+struct ast *newref(struct symbol *s)
 {
   struct symref *a = malloc(sizeof(struct symref));
   
@@ -132,8 +122,7 @@ newref(struct symbol *s)
   return (struct ast *)a;
 }
 
-struct ast *
-newasgn(struct symbol *s, struct ast *v)
+struct ast *newasgn(struct symbol *s, struct ast *v)
 {
   struct symasgn *a = malloc(sizeof(struct symasgn));
   
@@ -147,8 +136,7 @@ newasgn(struct symbol *s, struct ast *v)
   return (struct ast *)a;
 }
 
-struct ast *
-newflow(int nodetype, struct ast *cond, struct ast *tl, struct ast *el)
+struct ast *newflow(int nodetype, struct ast *cond, struct ast *tl, struct ast *el)
 {
   struct flow *a = malloc(sizeof(struct flow));
   
@@ -163,8 +151,7 @@ newflow(int nodetype, struct ast *cond, struct ast *tl, struct ast *el)
   return (struct ast *)a;
 }
 
-struct symlist *
-newsymlist(struct symbol *sym, struct symlist *next)
+struct symlist *newsymlist(struct symbol *sym, struct symlist *next)
 {
   struct symlist *sl = malloc(sizeof(struct symlist));
   
@@ -177,8 +164,7 @@ newsymlist(struct symbol *sym, struct symlist *next)
   return sl;
 }
 
-void
-symlistfree(struct symlist *sl)
+void symlistfree(struct symlist *sl)
 {
   struct symlist *nsl;
 
@@ -190,8 +176,7 @@ symlistfree(struct symlist *sl)
 }
 
 /* define a function */
-void
-dodef(struct symbol *name, struct symlist *syms, struct ast *func)
+void dodef(struct symbol *name, struct symlist *syms, struct ast *func)
 {
   if(name->syms) symlistfree(name->syms);
   if(name->func) treefree(name->func);
@@ -202,8 +187,7 @@ dodef(struct symbol *name, struct symlist *syms, struct ast *func)
 static double callbuiltin(struct fncall *);
 static double calluser(struct ufncall *);
 
-double
-eval(struct ast *a)
+double eval(struct ast *a)
 {
   double v;
 
@@ -275,8 +259,7 @@ eval(struct ast *a)
   return v;
 }
 
-static double
-callbuiltin(struct fncall *f)
+static double callbuiltin(struct fncall *f)
 {
   enum bifs functype = f->functype;
   double v = eval(f->l);
@@ -297,8 +280,7 @@ callbuiltin(struct fncall *f)
  }
 }
 
-static double
-calluser(struct ufncall *f)
+static double calluser(struct ufncall *f)
 {
   struct symbol *fn = f->s;	/* function name */
   struct symlist *sl;		/* dummy arguments */
@@ -370,9 +352,7 @@ calluser(struct ufncall *f)
   return v;
 }
 
-
-void
-treefree(struct ast *a)
+void treefree(struct ast *a)
 {
   switch(a->nodetype) {
 
@@ -411,8 +391,7 @@ treefree(struct ast *a)
 
 }
 
-void
-yyerror(char *s, ...)
+void yyerror(char *s, ...)
 {
   va_list ap;
   va_start(ap, s);
@@ -422,8 +401,7 @@ yyerror(char *s, ...)
   fprintf(stderr, "\n");
 }
 
-int
-main()
+int main()
 {
   printf("> "); 
   return yyparse();
@@ -431,8 +409,7 @@ main()
 
 /* debugging: dump out an AST */
 int debug = 0;
-void
-dumpast(struct ast *a, int level)
+void dumpast(struct ast *a, int level)
 {
 
   printf("%*s", 2*level, "");	/* indent to this level */
