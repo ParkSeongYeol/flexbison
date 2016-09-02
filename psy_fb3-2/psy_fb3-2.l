@@ -1,4 +1,4 @@
-%option noyywrap nodefault yylineno
+%option nodefault yylineno
 %{
 # include "psy_funcs.h"
 # include "psy_fb3-2.tab.h"
@@ -59,3 +59,10 @@ EXP	([Ee][-+]?[0-9]+)
 
 .	{ yyerror("Mystery character %c\n", *yytext); }
 %%
+
+int yywrap()
+{
+	print_symbol_values();
+	free_symbol_table();
+	return 1;
+}

@@ -19,6 +19,7 @@
 %token <d> NUMBER
 %token <s> NAME
 %token <fn> FUNC
+%token EOL
 
 %token IF THEN ELSE WHILE DO LET
 

@@ -5,7 +5,7 @@
 #  include <math.h>
 #  include "psy_funcs.h"
 
-struct symbol symtab[NHASH];
+struct symbol symtab[HASH_TABLE_SIZE];
 
 /* symbol table */
 /* hash a symbol */
@@ -21,8 +21,8 @@ static unsigned HashFunc(char *sym)
 
 struct symbol *lookup(char* sym)
 {
-  struct symbol *sp = &symtab[HashFunc(sym)%NHASH];
-  int scount = NHASH;		/* how many have we looked at */
+  struct symbol *sp = &symtab[HashFunc(sym)%HASH_TABLE_SIZE];
+  int scount = HASH_TABLE_SIZE;		/* how many have we looked at */
 
   while(--scount >= 0) {
     if(sp->name && !strcmp(sp->name, sym)) { return sp; } // if same SYMBOL is found, then return it
@@ -35,7 +35,7 @@ struct symbol *lookup(char* sym)
       return sp;
     }
 
-    if(++sp >= symtab+NHASH) sp = symtab; /* try the next entry */
+    if(++sp >= symtab+HASH_TABLE_SIZE) sp = symtab; /* try the next entry */
   }
   yyerror("symbol table overflow\n");
   abort(); /* tried them all, table is full */
@@ -500,6 +500,30 @@ void dumpast(struct ast *a, int level)
 
 int print_symbol_values()
 {
-	printf("program exit \n: ");
-	//fprintf(yyout, "program exit \n: ");
+	int idx;
+	struct symbol *pSymbol;
+	
+	for (idx = 0 ; idx < HASH_TABLE_SIZE ; idx++)
+	{
+		pSymbol = &symtab[idx];
+		if  (pSymbol->name != NULL)
+		{
+			printf("%s : %4.4g\n", pSymbol->name, pSymbol->value);
+		}	
+	}
+}
+
+int free_symbol_table()
+{
+	int idx;
+	struct symbol *pSymbol;
+	
+	for (idx = 0 ; idx < HASH_TABLE_SIZE ; idx++)
+	{
+		pSymbol = &symtab[idx];
+		if  (pSymbol->name != NULL)
+		{
+			free(pSymbol->name);
+		}	
+	}	
 }

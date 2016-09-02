@@ -8,7 +8,7 @@ struct symbol {		/* a variable name */
 };
 
 /* simple symtab of fixed size */
-#define NHASH 9997
+#define HASH_TABLE_SIZE 9997
 
 struct symbol *lookup(char*);
 
@@ -114,3 +114,5 @@ void dumpast(struct ast *a, int level);
 
 // print value of symbol that is assigned
 int print_symbol_values();
+// free symbol table
+int free_symbol_table();
