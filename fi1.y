@@ -8,7 +8,8 @@ extern FILE *yyout;
 %}
 
 %token INTEGER
-
+%left '-' '+'
+%left '*'
 %%
 
 program:
@@ -22,9 +23,12 @@ program:
         ;
 
 expr:
-        
-        INTEGER '+' INTEGER           { $$ = $1 + $3; }
-        | INTEGER '-' INTEGER           { $$ = $1 - $3; }
+        INTEGER				{ $$ = $1; }	  	
+		| expr '+' expr		{ $$ = $1 + $3; }
+        | expr '-' expr		{ $$ = $1 - $3; }
+		| expr '*' expr		{ $$ = $1 * $3; }
+		
+		
         ;
 
 %%
