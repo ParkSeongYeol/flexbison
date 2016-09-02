@@ -112,3 +112,5 @@ void yyerror(char *s, ...);
 extern int debug;
 void dumpast(struct ast *a, int level);
 
+// print value of symbol that is assigned
+int print_symbol_values();

@@ -417,10 +417,24 @@ void yyerror(char *s, ...)
   fprintf(stderr, "\n");
 }
 
+extern FILE *yyin;
+extern FILE *yyout;	
+
 int main()
 {
-  printf("> "); 
-  return yyparse();
+	yyin = fopen("./input.txt", "r");
+	yyout = fopen("./output.txt", "w+");
+		
+	yyparse();
+
+	fclose(yyin);
+	fclose(yyout);	
+	
+	return 1;
+	
+  //printf("> "); 
+  //return yyparse();
+  
 }
 
 /* debugging: dump out an AST */
@@ -482,4 +496,10 @@ void dumpast(struct ast *a, int level)
   default: printf("bad %c\n", a->nodetype);
     return;
   }
+}
+
+int print_symbol_values()
+{
+	printf("program exit \n: ");
+	//fprintf(yyout, "program exit \n: ");
 }

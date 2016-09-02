@@ -1,0 +1,1 @@
+del lex.yy.c lex.yy.o psy_fb3-2.tab.c psy_fb3-2.tab.h psy_fb3-2.tab.o psy_funcs.o

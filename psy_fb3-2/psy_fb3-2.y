@@ -19,7 +19,6 @@
 %token <d> NUMBER
 %token <s> NAME
 %token <fn> FUNC
-%token EOL
 
 %token IF THEN ELSE WHILE DO LET
 
@@ -40,15 +39,20 @@ calclist: /* nothing */
 	| calclist stmt EOL	{
 							if(debug)
 								dumpast($2, 0);
-							printf("= %4.4g\n> ", eval($2));
+							//printf("= %4.4g\n> ", eval($2));
+							printf("= %4.4g\n", eval($2));
 							treefree($2);
 						}
 	| calclist LET NAME '(' symlist ')' '=' list EOL{
 														dodef($3, $5, $8);
-														printf("Defined %s\n> ", $3->name);
+														//printf("Defined %s\n> ", $3->name);
+														printf("Defined %s\n", $3->name);
 													}
 
-	| calclist error EOL { yyerrok; printf("> "); }
+	| calclist error EOL{ 
+							//yyerrok; printf("> ");
+							yyerrok;
+						}
 	;
 	
 stmt: IF exp THEN list           { $$ = newflow('I', $2, $4, NULL); }
