@@ -40,10 +40,6 @@ int main(void) {
     yyout = fopen("./output.txt", "w+");
 		
 	yyparse();
-    
-	
-	fclose(yyin);
-	
 	
 	fclose(yyin);
 	fclose(yyout);
