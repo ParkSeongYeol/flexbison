@@ -18,7 +18,9 @@ EXP	([Ee][-+]?[0-9]+)
 "," |
 ";" |
 "(" |
-")"     { return yytext[0]; }
+")" |
+"{" |
+"}"   { return yytext[0]; }
 
  /* comparison ops */
 ">"     { yylval.fn = 1; return CMP; }
@@ -55,7 +57,9 @@ EXP	([Ee][-+]?[0-9]+)
 "//".*  
 [ \t]   /* ignore white space */ 
 \\\n    printf("c> "); /* ignore line continuation */
-"\n"    { return EOL; }
+"\n"    { /*return EOL;*/ }
+
+
 
 .	{ yyerror("Mystery character %c\n", *yytext); }
 %%

@@ -493,6 +493,9 @@ void dumpast(struct ast *a, int level)
     dumpast(a->l, level);
     return;
 
+  case 'B' : /* do nothing*/
+    return;  
+
   default: printf("bad %c\n", a->nodetype);
     return;
   }
