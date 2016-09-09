@@ -49,7 +49,7 @@ calclist: /* nothing */
 stmt: IF exp THEN stmt %prec LOWER_THAN_ELSE	{ $$ = newflow('I', $2, $4, NULL); }
    | IF exp THEN stmt ELSE stmt 	{ $$ = newflow('I', $2, $4, $6); }
    | WHILE exp DO stmt         		{ $$ = newflow('W', $2, $4, NULL); }
-   | ';'							{ $$ = newast('B', NULL, NULL)}
+   | ';'							{ $$ = newast('B', NULL, NULL);}
    | exp ';'					 	{ $$ = $1; }
    | '{' stmt_list '}'				{ $$ = $2; }
    
